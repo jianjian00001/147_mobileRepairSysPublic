@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置关于操作日志表的 MyBatis映射文件 -->
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.dao.OperlogDAO">
+	<resultMap type="com.entity.Operlog" id="operlogMap">
+		<id property="operlogid" column="operlogid" />
+		<result property="opername" column="opername" />
+		<result property="methods" column="methods" />
+		<result property="opers" column="opers" />
+		<result property="operurl" column="operurl" />
+		<result property="ipaddr" column="ipaddr" />
+		<result property="operstatus" column="operstatus" />
+		<result property="opertime" column="opertime" />
+	</resultMap>
+
+	<!-- 操作日志表 插入SQL语句  OperlogDAO通过ID(insertOperlog)调用此配置 -->
+	<insert id="insertOperlog" parameterType="operlog">  
+		insert into operlog(operlogid  , opername  , methods  , opers  , operurl  , ipaddr  , operstatus  , opertime ) values(#{operlogid}  , #{opername}   , #{methods}   , #{opers}   , #{operurl}   , #{ipaddr}   , #{operstatus}   , #{opertime} )
+	</insert>
+
+	<!-- 操作日志表 更新SQL语句  OperlogDAO通过ID(updateOperlog)调用此配置 -->
+	<update id="updateOperlog" parameterType="operlog">
+		update operlog set  opername=#{opername}  , methods=#{methods}  , opers=#{opers}  , operurl=#{operurl}  , ipaddr=#{ipaddr}  , operstatus=#{operstatus}  , opertime=#{opertime}  where operlogid=#{operlogid}
+	</update>
+
+	<!-- 操作日志表 按主键删除SQL语句  OperlogDAO通过ID(deleteOperlog)调用此配置 -->
+	<delete id="deleteOperlog" parameterType="String">
+		delete from operlog where operlogid = #{operlogid}
+	</delete>
+
+	<!-- 操作日志表 查询全部操作日志信息SQL语句  OperlogDAO通过ID(getAllOperlog)调用此配置  -->
+	<select id="getAllOperlog" resultMap="operlogMap">
+		select a.*  from operlog a  where 1=1  order by operlogid desc
+	</select>
+
+	<!-- 操作日志表 按主键(operlogid)查询SQL语句 OperlogDAO通过ID(getOperlogById)调用此配置  -->
+	<select id="getOperlogById" parameterType="String" resultMap="operlogMap">
+		select a.*  from operlog a  where 1=1 and operlogid=#{operlogid} 
+	</select>
+
+	<!-- 操作日志表 按条件精确查询SQL语句 OperlogDAO通过ID(getOperlogByCond)调用此配置  -->
+	<select id="getOperlogByCond" parameterType="operlog" resultMap="operlogMap">
+		select a.*  from operlog a  where 1=1 
+		<if test="opername != null and '' != opername">
+			and a.opername = #{opername}  
+		</if>
+		<if test="methods != null and '' != methods">
+			and a.methods = #{methods}  
+		</if>
+		<if test="opers != null and '' != opers">
+			and a.opers = #{opers}  
+		</if>
+		<if test="operurl != null and '' != operurl">
+			and a.operurl = #{operurl}  
+		</if>
+		<if test="ipaddr != null and '' != ipaddr">
+			and a.ipaddr = #{ipaddr}  
+		</if>
+		<if test="operstatus != null and '' != operstatus">
+			and a.operstatus = #{operstatus}  
+		</if>
+		<if test="opertime != null and '' != opertime">
+			and a.opertime = #{opertime}  
+		</if>
+	</select>
+
+	<!-- 操作日志表 按条件模糊查询SQL语句 OperlogDAO通过ID(getOperlogByLike)调用此配置  -->
+	<select id="getOperlogByLike" parameterType="operlog" resultMap="operlogMap">
+		select a.*  from operlog a  where 1=1 
+		<if test="opername != null and '' != opername">
+			and a.opername like CONCAT('%', CONCAT(#{opername}, '%'))
+		</if>
+		<if test="methods != null and '' != methods">
+			and a.methods like CONCAT('%', CONCAT(#{methods}, '%'))
+		</if>
+		<if test="opers != null and '' != opers">
+			and a.opers like CONCAT('%', CONCAT(#{opers}, '%'))
+		</if>
+		<if test="operurl != null and '' != operurl">
+			and a.operurl like CONCAT('%', CONCAT(#{operurl}, '%'))
+		</if>
+		<if test="ipaddr != null and '' != ipaddr">
+			and a.ipaddr like CONCAT('%', CONCAT(#{ipaddr}, '%'))
+		</if>
+		<if test="operstatus != null and '' != operstatus">
+			and a.operstatus like CONCAT('%', CONCAT(#{operstatus}, '%'))
+		</if>
+		<if test="opertime != null and '' != opertime">
+			and a.opertime like CONCAT('%', CONCAT(#{opertime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

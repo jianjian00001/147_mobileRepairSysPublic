@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置关于配件消耗表的 MyBatis映射文件 -->
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.dao.ExtendxDAO">
+	<resultMap type="com.entity.Extendx" id="extendxMap">
+		<id property="extendxid" column="extendxid" />
+		<result property="ordersid" column="ordersid" />
+		<result property="partxid" column="partxid" />
+		<result property="num" column="num" />
+		<result property="price" column="price" />
+		<result property="total" column="total" />
+		<result property="addtime" column="addtime" />
+		<result property="adminid" column="adminid" />
+		<result property="memo" column="memo" />
+		<result property="ordercode" column="ordercode" />
+		<result property="partxname" column="partxname" />
+		<result property="realname" column="realname" />
+		<!-- 通过外键关联查询  返回封装Orders对象 -->
+		<association property="orders" column="ordersid" select="com.dao.OrdersDAO.getOrdersById" javaType="com.entity.Orders" />
+		<!-- 通过外键关联查询  返回封装Partx对象 -->
+		<association property="partx" column="partxid" select="com.dao.PartxDAO.getPartxById" javaType="com.entity.Partx" />
+		<!-- 通过外键关联查询  返回封装Admin对象 -->
+		<association property="admin" column="adminid" select="com.dao.AdminDAO.getAdminById" javaType="com.entity.Admin" />
+	</resultMap>
+
+	<!-- 配件消耗表 插入SQL语句  ExtendxDAO通过ID(insertExtendx)调用此配置 -->
+	<insert id="insertExtendx" parameterType="extendx">  
+		insert into extendx(extendxid  , ordersid  , partxid  , num  , price  , total  , addtime  , adminid  , memo ) values(#{extendxid}  , #{ordersid}   , #{partxid}   , #{num}   , #{price}   , #{total}   , #{addtime}   , #{adminid}   , #{memo} )
+	</insert>
+
+	<!-- 配件消耗表 更新SQL语句  ExtendxDAO通过ID(updateExtendx)调用此配置 -->
+	<update id="updateExtendx" parameterType="extendx">
+		update extendx set  ordersid=#{ordersid}  , partxid=#{partxid}  , num=#{num}  , price=#{price}  , total=#{total}  , addtime=#{addtime}  , adminid=#{adminid}  , memo=#{memo}  where extendxid=#{extendxid}
+	</update>
+
+	<!-- 配件消耗表 按主键删除SQL语句  ExtendxDAO通过ID(deleteExtendx)调用此配置 -->
+	<delete id="deleteExtendx" parameterType="String">
+		delete from extendx where extendxid = #{extendxid}
+	</delete>
+
+	<!-- 配件消耗表 查询全部配件消耗信息SQL语句  ExtendxDAO通过ID(getAllExtendx)调用此配置  -->
+	<select id="getAllExtendx" resultMap="extendxMap">
+		select a.* , b.ordercode , c.partxname , d.realname  from extendx a , orders b , partx c , admin d  where 1=1 and a.ordersid = b.ordersid and a.partxid = c.partxid and a.adminid = d.adminid  order by extendxid desc
+	</select>
+
+	<!-- 配件消耗表 按主键(extendxid)查询SQL语句 ExtendxDAO通过ID(getExtendxById)调用此配置  -->
+	<select id="getExtendxById" parameterType="String" resultMap="extendxMap">
+		select a.* , b.ordercode , c.partxname , d.realname  from extendx a , orders b , partx c , admin d  where 1=1 and a.ordersid = b.ordersid and a.partxid = c.partxid and a.adminid = d.adminid and extendxid=#{extendxid} 
+	</select>
+
+	<!-- 配件消耗表 按条件精确查询SQL语句 ExtendxDAO通过ID(getExtendxByCond)调用此配置  -->
+	<select id="getExtendxByCond" parameterType="extendx" resultMap="extendxMap">
+		select a.* , b.ordercode , c.partxname , d.realname  from extendx a , orders b , partx c , admin d  where 1=1 and a.ordersid = b.ordersid and a.partxid = c.partxid and a.adminid = d.adminid 
+		<if test="ordersid != null and '' != ordersid">
+			and a.ordersid = #{ordersid}  
+		</if>
+		<if test="partxid != null and '' != partxid">
+			and a.partxid = #{partxid}  
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}  
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}  
+		</if>
+		<if test="total != null and '' != total">
+			and a.total = #{total}  
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}  
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and a.adminid = #{adminid}  
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}  
+		</if>
+	</select>
+
+	<!-- 配件消耗表 按条件模糊查询SQL语句 ExtendxDAO通过ID(getExtendxByLike)调用此配置  -->
+	<select id="getExtendxByLike" parameterType="extendx" resultMap="extendxMap">
+		select a.* , b.ordercode , c.partxname , d.realname  from extendx a , orders b , partx c , admin d  where 1=1 and a.ordersid = b.ordersid and a.partxid = c.partxid and a.adminid = d.adminid 
+		<if test="ordersid != null and '' != ordersid">
+			and b.ordercode like CONCAT('%', CONCAT(#{ordersid}, '%'))
+		</if>
+		<if test="partxid != null and '' != partxid">
+			and c.partxname like CONCAT('%', CONCAT(#{partxid}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="total != null and '' != total">
+			and a.total like CONCAT('%', CONCAT(#{total}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and d.realname like CONCAT('%', CONCAT(#{adminid}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

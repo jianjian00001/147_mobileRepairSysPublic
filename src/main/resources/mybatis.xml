@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- mybatis.xml作用：配置连接数据库的所有需要的环境 ， 必须连接到所有要使用的映射文件。-->  
+<configuration>
+    <!-- 配置别名：在MyBatis中为一个类取别名，配置别名是为了在对象映射文件中接收参数类型和返回参数类型时使用--> 
+	<typeAliases>
+		<typeAlias alias="admin" type="com.entity.Admin" /><!-- 系统用户表别名为admin 映射类是 com.entity.Admin -->
+		<typeAlias alias="loginf" type="com.entity.Loginf" /><!-- 登录日志表别名为loginf 映射类是 com.entity.Loginf -->
+		<typeAlias alias="operlog" type="com.entity.Operlog" /><!-- 操作日志表别名为operlog 映射类是 com.entity.Operlog -->
+		<typeAlias alias="users" type="com.entity.Users" /><!-- 网站用户表别名为users 映射类是 com.entity.Users -->
+		<typeAlias alias="banner" type="com.entity.Banner" /><!-- 网站栏目表别名为banner 映射类是 com.entity.Banner -->
+		<typeAlias alias="article" type="com.entity.Article" /><!-- 网站内容表别名为article 映射类是 com.entity.Article -->
+		<typeAlias alias="brand" type="com.entity.Brand" /><!-- 手机品牌表别名为brand 映射类是 com.entity.Brand -->
+		<typeAlias alias="phone" type="com.entity.Phone" /><!-- 手机表别名为phone 映射类是 com.entity.Phone -->
+		<typeAlias alias="partx" type="com.entity.Partx" /><!-- 手机配件表别名为partx 映射类是 com.entity.Partx -->
+		<typeAlias alias="orders" type="com.entity.Orders" /><!-- 维修订单表别名为orders 映射类是 com.entity.Orders -->
+		<typeAlias alias="extendx" type="com.entity.Extendx" /><!-- 配件消耗表别名为extendx 映射类是 com.entity.Extendx -->
+		<typeAlias alias="topic" type="com.entity.Topic" /><!-- 用户评价表别名为topic 映射类是 com.entity.Topic -->
+		<typeAlias alias="complains" type="com.entity.Complains" /><!-- 意见反馈表别名为complains 映射类是 com.entity.Complains -->
+	</typeAliases>
+
+	<!-- mappers 标签是用来配置需要加载的 SQL 映射配置文件路径 -->
+	<mappers>
+		<mapper resource="mapper/admin.xml" /> <!-- 系统用户映射文件 -->
+		<mapper resource="mapper/loginf.xml" /> <!-- 登录日志映射文件 -->
+		<mapper resource="mapper/operlog.xml" /> <!-- 操作日志映射文件 -->
+		<mapper resource="mapper/users.xml" /> <!-- 网站用户映射文件 -->
+		<mapper resource="mapper/banner.xml" /> <!-- 网站栏目映射文件 -->
+		<mapper resource="mapper/article.xml" /> <!-- 网站内容映射文件 -->
+		<mapper resource="mapper/brand.xml" /> <!-- 手机品牌映射文件 -->
+		<mapper resource="mapper/phone.xml" /> <!-- 手机映射文件 -->
+		<mapper resource="mapper/partx.xml" /> <!-- 手机配件映射文件 -->
+		<mapper resource="mapper/orders.xml" /> <!-- 维修订单映射文件 -->
+		<mapper resource="mapper/extendx.xml" /> <!-- 配件消耗映射文件 -->
+		<mapper resource="mapper/topic.xml" /> <!-- 用户评价映射文件 -->
+		<mapper resource="mapper/complains.xml" /> <!-- 意见反馈映射文件 -->
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

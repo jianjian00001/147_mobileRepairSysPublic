@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置关于手机表的 MyBatis映射文件 -->
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.dao.PhoneDAO">
+	<resultMap type="com.entity.Phone" id="phoneMap">
+		<id property="phoneid" column="phoneid" />
+		<result property="phonename" column="phonename" />
+		<result property="brandid" column="brandid" />
+		<result property="price" column="price" />
+		<result property="addtime" column="addtime" />
+		<result property="num" column="num" />
+		<result property="memo" column="memo" />
+		<result property="brandname" column="brandname" />
+		<!-- 通过外键关联查询  返回封装Brand对象 -->
+		<association property="brand" column="brandid" select="com.dao.BrandDAO.getBrandById" javaType="com.entity.Brand" />
+	</resultMap>
+
+	<!-- 手机表 插入SQL语句  PhoneDAO通过ID(insertPhone)调用此配置 -->
+	<insert id="insertPhone" parameterType="phone">  
+		insert into phone(phoneid  , phonename  , brandid  , price  , addtime  , num  , memo ) values(#{phoneid}  , #{phonename}   , #{brandid}   , #{price}   , #{addtime}   , #{num}   , #{memo} )
+	</insert>
+
+	<!-- 手机表 更新SQL语句  PhoneDAO通过ID(updatePhone)调用此配置 -->
+	<update id="updatePhone" parameterType="phone">
+		update phone set  phonename=#{phonename}  , brandid=#{brandid}  , price=#{price}  , addtime=#{addtime}  , num=#{num}  , memo=#{memo}  where phoneid=#{phoneid}
+	</update>
+
+	<!-- 手机表 按主键删除SQL语句  PhoneDAO通过ID(deletePhone)调用此配置 -->
+	<delete id="deletePhone" parameterType="String">
+		delete from phone where phoneid = #{phoneid}
+	</delete>
+
+	<!-- 手机表 查询全部手机信息SQL语句  PhoneDAO通过ID(getAllPhone)调用此配置  -->
+	<select id="getAllPhone" resultMap="phoneMap">
+		select a.* , b.brandname  from phone a , brand b  where 1=1 and a.brandid = b.brandid  order by phoneid desc
+	</select>
+
+	<!-- 手机表 按主键(phoneid)查询SQL语句 PhoneDAO通过ID(getPhoneById)调用此配置  -->
+	<select id="getPhoneById" parameterType="String" resultMap="phoneMap">
+		select a.* , b.brandname  from phone a , brand b  where 1=1 and a.brandid = b.brandid and phoneid=#{phoneid} 
+	</select>
+
+	<!-- 手机表 按条件精确查询SQL语句 PhoneDAO通过ID(getPhoneByCond)调用此配置  -->
+	<select id="getPhoneByCond" parameterType="phone" resultMap="phoneMap">
+		select a.* , b.brandname  from phone a , brand b  where 1=1 and a.brandid = b.brandid 
+		<if test="phonename != null and '' != phonename">
+			and a.phonename = #{phonename}  
+		</if>
+		<if test="brandid != null and '' != brandid">
+			and a.brandid = #{brandid}  
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}  
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}  
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}  
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}  
+		</if>
+	</select>
+
+	<!-- 手机表 按条件模糊查询SQL语句 PhoneDAO通过ID(getPhoneByLike)调用此配置  -->
+	<select id="getPhoneByLike" parameterType="phone" resultMap="phoneMap">
+		select a.* , b.brandname  from phone a , brand b  where 1=1 and a.brandid = b.brandid 
+		<if test="phonename != null and '' != phonename">
+			and a.phonename like CONCAT('%', CONCAT(#{phonename}, '%'))
+		</if>
+		<if test="brandid != null and '' != brandid">
+			and b.brandname like CONCAT('%', CONCAT(#{brandid}, '%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置关于用户评价表的 MyBatis映射文件 -->
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.dao.TopicDAO">
+	<resultMap type="com.entity.Topic" id="topicMap">
+		<id property="topicid" column="topicid" />
+		<result property="ordersid" column="ordersid" />
+		<result property="usersid" column="usersid" />
+		<result property="num" column="num" />
+		<result property="contents" column="contents" />
+		<result property="addtime" column="addtime" />
+		<result property="ordercode" column="ordercode" />
+		<result property="username" column="username" />
+		<!-- 通过外键关联查询  返回封装Orders对象 -->
+		<association property="orders" column="ordersid" select="com.dao.OrdersDAO.getOrdersById" javaType="com.entity.Orders" />
+		<!-- 通过外键关联查询  返回封装Users对象 -->
+		<association property="users" column="usersid" select="com.dao.UsersDAO.getUsersById" javaType="com.entity.Users" />
+	</resultMap>
+
+	<!-- 用户评价表 插入SQL语句  TopicDAO通过ID(insertTopic)调用此配置 -->
+	<insert id="insertTopic" parameterType="topic">  
+		insert into topic(topicid  , ordersid  , usersid  , num  , contents  , addtime ) values(#{topicid}  , #{ordersid}   , #{usersid}   , #{num}   , #{contents}   , #{addtime} )
+	</insert>
+
+	<!-- 用户评价表 更新SQL语句  TopicDAO通过ID(updateTopic)调用此配置 -->
+	<update id="updateTopic" parameterType="topic">
+		update topic set  ordersid=#{ordersid}  , usersid=#{usersid}  , num=#{num}  , contents=#{contents}  , addtime=#{addtime}  where topicid=#{topicid}
+	</update>
+
+	<!-- 用户评价表 按主键删除SQL语句  TopicDAO通过ID(deleteTopic)调用此配置 -->
+	<delete id="deleteTopic" parameterType="String">
+		delete from topic where topicid = #{topicid}
+	</delete>
+
+	<!-- 用户评价表 查询全部用户评价信息SQL语句  TopicDAO通过ID(getAllTopic)调用此配置  -->
+	<select id="getAllTopic" resultMap="topicMap">
+		select a.* , b.ordercode , c.username  from topic a , orders b , users c  where 1=1 and a.ordersid = b.ordersid and a.usersid = c.usersid  order by topicid desc
+	</select>
+
+	<!-- 用户评价表 按主键(topicid)查询SQL语句 TopicDAO通过ID(getTopicById)调用此配置  -->
+	<select id="getTopicById" parameterType="String" resultMap="topicMap">
+		select a.* , b.ordercode , c.username  from topic a , orders b , users c  where 1=1 and a.ordersid = b.ordersid and a.usersid = c.usersid and topicid=#{topicid} 
+	</select>
+
+	<!-- 用户评价表 按条件精确查询SQL语句 TopicDAO通过ID(getTopicByCond)调用此配置  -->
+	<select id="getTopicByCond" parameterType="topic" resultMap="topicMap">
+		select a.* , b.ordercode , c.username  from topic a , orders b , users c  where 1=1 and a.ordersid = b.ordersid and a.usersid = c.usersid 
+		<if test="ordersid != null and '' != ordersid">
+			and a.ordersid = #{ordersid}  
+		</if>
+		<if test="usersid != null and '' != usersid">
+			and a.usersid = #{usersid}  
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}  
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents = #{contents}  
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}  
+		</if>
+	</select>
+
+	<!-- 用户评价表 按条件模糊查询SQL语句 TopicDAO通过ID(getTopicByLike)调用此配置  -->
+	<select id="getTopicByLike" parameterType="topic" resultMap="topicMap">
+		select a.* , b.ordercode , c.username  from topic a , orders b , users c  where 1=1 and a.ordersid = b.ordersid and a.usersid = c.usersid 
+		<if test="ordersid != null and '' != ordersid">
+			and b.ordercode like CONCAT('%', CONCAT(#{ordersid}, '%'))
+		</if>
+		<if test="usersid != null and '' != usersid">
+			and c.username like CONCAT('%', CONCAT(#{usersid}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents like CONCAT('%', CONCAT(#{contents}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

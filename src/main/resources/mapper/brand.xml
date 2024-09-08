@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置关于手机品牌表的 MyBatis映射文件 -->
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.dao.BrandDAO">
+	<resultMap type="com.entity.Brand" id="brandMap">
+		<id property="brandid" column="brandid" />
+		<result property="brandname" column="brandname" />
+		<result property="addtime" column="addtime" />
+		<result property="memo" column="memo" />
+	</resultMap>
+
+	<!-- 手机品牌表 插入SQL语句  BrandDAO通过ID(insertBrand)调用此配置 -->
+	<insert id="insertBrand" parameterType="brand">  
+		insert into brand(brandid  , brandname  , addtime  , memo ) values(#{brandid}  , #{brandname}   , #{addtime}   , #{memo} )
+	</insert>
+
+	<!-- 手机品牌表 更新SQL语句  BrandDAO通过ID(updateBrand)调用此配置 -->
+	<update id="updateBrand" parameterType="brand">
+		update brand set  brandname=#{brandname}  , addtime=#{addtime}  , memo=#{memo}  where brandid=#{brandid}
+	</update>
+
+	<!-- 手机品牌表 按主键删除SQL语句  BrandDAO通过ID(deleteBrand)调用此配置 -->
+	<delete id="deleteBrand" parameterType="String">
+		delete from brand where brandid = #{brandid}
+	</delete>
+
+	<!-- 手机品牌表 查询全部手机品牌信息SQL语句  BrandDAO通过ID(getAllBrand)调用此配置  -->
+	<select id="getAllBrand" resultMap="brandMap">
+		select a.*  from brand a  where 1=1  order by brandid desc
+	</select>
+
+	<!-- 手机品牌表 按主键(brandid)查询SQL语句 BrandDAO通过ID(getBrandById)调用此配置  -->
+	<select id="getBrandById" parameterType="String" resultMap="brandMap">
+		select a.*  from brand a  where 1=1 and brandid=#{brandid} 
+	</select>
+
+	<!-- 手机品牌表 按条件精确查询SQL语句 BrandDAO通过ID(getBrandByCond)调用此配置  -->
+	<select id="getBrandByCond" parameterType="brand" resultMap="brandMap">
+		select a.*  from brand a  where 1=1 
+		<if test="brandname != null and '' != brandname">
+			and a.brandname = #{brandname}  
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}  
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}  
+		</if>
+	</select>
+
+	<!-- 手机品牌表 按条件模糊查询SQL语句 BrandDAO通过ID(getBrandByLike)调用此配置  -->
+	<select id="getBrandByLike" parameterType="brand" resultMap="brandMap">
+		select a.*  from brand a  where 1=1 
+		<if test="brandname != null and '' != brandname">
+			and a.brandname like CONCAT('%', CONCAT(#{brandname}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

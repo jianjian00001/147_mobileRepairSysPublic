@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置关于手机配件表的 MyBatis映射文件 -->
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.dao.PartxDAO">
+	<resultMap type="com.entity.Partx" id="partxMap">
+		<id property="partxid" column="partxid" />
+		<result property="pno" column="pno" />
+		<result property="partxname" column="partxname" />
+		<result property="phoneid" column="phoneid" />
+		<result property="price" column="price" />
+		<result property="addtime" column="addtime" />
+		<result property="memo" column="memo" />
+		<result property="phonename" column="phonename" />
+		<result property="storage" column="storage" />
+		<!-- 通过外键关联查询  返回封装Phone对象 -->
+		<association property="phone" column="phoneid" select="com.dao.PhoneDAO.getPhoneById" javaType="com.entity.Phone" />
+	</resultMap>
+
+	<!-- 手机配件表 插入SQL语句  PartxDAO通过ID(insertPartx)调用此配置 -->
+	<insert id="insertPartx" parameterType="partx">
+		insert into partx(partxid  , pno  , partxname  , phoneid  , price  , addtime  , memo , storage) values(#{partxid}  , #{pno}   , #{partxname}   , #{phoneid}   , #{price}   , #{addtime}   , #{memo} , #{storage})
+	</insert>
+
+	<!-- 手机配件表 更新SQL语句  PartxDAO通过ID(updatePartx)调用此配置 -->
+	<update id="updatePartx" parameterType="partx">
+		update partx set  pno=#{pno}  , partxname=#{partxname}  , phoneid=#{phoneid}  , price=#{price}  , addtime=#{addtime}  , memo=#{memo} , storage=#{storage} where partxid=#{partxid}
+	</update>
+
+	<!-- 手机配件表 按主键删除SQL语句  PartxDAO通过ID(deletePartx)调用此配置 -->
+	<delete id="deletePartx" parameterType="String">
+		delete from partx where partxid = #{partxid}
+	</delete>
+
+	<!-- 手机配件表 查询全部手机配件信息SQL语句  PartxDAO通过ID(getAllPartx)调用此配置  -->
+	<select id="getAllPartx" resultMap="partxMap">
+		select a.* , b.phonename  from partx a , phone b  where 1=1 and a.phoneid = b.phoneid  order by partxid desc
+	</select>
+
+	<!-- 手机配件表 按主键(partxid)查询SQL语句 PartxDAO通过ID(getPartxById)调用此配置  -->
+	<select id="getPartxById" parameterType="String" resultMap="partxMap">
+		select a.* , b.phonename  from partx a , phone b  where 1=1 and a.phoneid = b.phoneid and partxid=#{partxid}
+	</select>
+
+	<!-- 手机配件表 按条件精确查询SQL语句 PartxDAO通过ID(getPartxByCond)调用此配置  -->
+	<select id="getPartxByCond" parameterType="partx" resultMap="partxMap">
+		select a.* , b.phonename  from partx a , phone b  where 1=1 and a.phoneid = b.phoneid
+		<if test="pno != null and '' != pno">
+			and a.pno = #{pno}
+		</if>
+		<if test="partxname != null and '' != partxname">
+			and a.partxname = #{partxname}
+		</if>
+		<if test="phoneid != null and '' != phoneid">
+			and a.phoneid = #{phoneid}
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+
+	<!-- 手机配件表 按条件模糊查询SQL语句 PartxDAO通过ID(getPartxByLike)调用此配置  -->
+	<select id="getPartxByLike" parameterType="partx" resultMap="partxMap">
+		select a.* , b.phonename  from partx a , phone b  where 1=1 and a.phoneid = b.phoneid
+		<if test="pno != null and '' != pno">
+			and a.pno like CONCAT('%', CONCAT(#{pno}, '%'))
+		</if>
+		<if test="partxname != null and '' != partxname">
+			and a.partxname like CONCAT('%', CONCAT(#{partxname}, '%'))
+		</if>
+		<if test="phoneid != null and '' != phoneid">
+			and b.phonename like CONCAT('%', CONCAT(#{phoneid}, '%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置关于登录日志表的 MyBatis映射文件 -->
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.dao.LoginfDAO">
+	<resultMap type="com.entity.Loginf" id="loginfMap">
+		<id property="loginfid" column="loginfid" />
+		<result property="logname" column="logname" />
+		<result property="ipaddr" column="ipaddr" />
+		<result property="brower" column="brower" />
+		<result property="os" column="os" />
+		<result property="logstatus" column="logstatus" />
+		<result property="role" column="role" />
+		<result property="logtime" column="logtime" />
+	</resultMap>
+
+	<!-- 登录日志表 插入SQL语句  LoginfDAO通过ID(insertLoginf)调用此配置 -->
+	<insert id="insertLoginf" parameterType="loginf">  
+		insert into loginf(loginfid  , logname  , ipaddr  , brower  , os  , logstatus  , role  , logtime ) values(#{loginfid}  , #{logname}   , #{ipaddr}   , #{brower}   , #{os}   , #{logstatus}   , #{role}   , #{logtime} )
+	</insert>
+
+	<!-- 登录日志表 更新SQL语句  LoginfDAO通过ID(updateLoginf)调用此配置 -->
+	<update id="updateLoginf" parameterType="loginf">
+		update loginf set  logname=#{logname}  , ipaddr=#{ipaddr}  , brower=#{brower}  , os=#{os}  , logstatus=#{logstatus}  , role=#{role}  , logtime=#{logtime}  where loginfid=#{loginfid}
+	</update>
+
+	<!-- 登录日志表 按主键删除SQL语句  LoginfDAO通过ID(deleteLoginf)调用此配置 -->
+	<delete id="deleteLoginf" parameterType="String">
+		delete from loginf where loginfid = #{loginfid}
+	</delete>
+
+	<!-- 登录日志表 查询全部登录日志信息SQL语句  LoginfDAO通过ID(getAllLoginf)调用此配置  -->
+	<select id="getAllLoginf" resultMap="loginfMap">
+		select a.*  from loginf a  where 1=1  order by loginfid desc
+	</select>
+
+	<!-- 登录日志表 按主键(loginfid)查询SQL语句 LoginfDAO通过ID(getLoginfById)调用此配置  -->
+	<select id="getLoginfById" parameterType="String" resultMap="loginfMap">
+		select a.*  from loginf a  where 1=1 and loginfid=#{loginfid} 
+	</select>
+
+	<!-- 登录日志表 按条件精确查询SQL语句 LoginfDAO通过ID(getLoginfByCond)调用此配置  -->
+	<select id="getLoginfByCond" parameterType="loginf" resultMap="loginfMap">
+		select a.*  from loginf a  where 1=1 
+		<if test="logname != null and '' != logname">
+			and a.logname = #{logname}  
+		</if>
+		<if test="ipaddr != null and '' != ipaddr">
+			and a.ipaddr = #{ipaddr}  
+		</if>
+		<if test="brower != null and '' != brower">
+			and a.brower = #{brower}  
+		</if>
+		<if test="os != null and '' != os">
+			and a.os = #{os}  
+		</if>
+		<if test="logstatus != null and '' != logstatus">
+			and a.logstatus = #{logstatus}  
+		</if>
+		<if test="role != null and '' != role">
+			and a.role = #{role}  
+		</if>
+		<if test="logtime != null and '' != logtime">
+			and a.logtime = #{logtime}  
+		</if>
+	</select>
+
+	<!-- 登录日志表 按条件模糊查询SQL语句 LoginfDAO通过ID(getLoginfByLike)调用此配置  -->
+	<select id="getLoginfByLike" parameterType="loginf" resultMap="loginfMap">
+		select a.*  from loginf a  where 1=1 
+		<if test="logname != null and '' != logname">
+			and a.logname like CONCAT('%', CONCAT(#{logname}, '%'))
+		</if>
+		<if test="ipaddr != null and '' != ipaddr">
+			and a.ipaddr like CONCAT('%', CONCAT(#{ipaddr}, '%'))
+		</if>
+		<if test="brower != null and '' != brower">
+			and a.brower like CONCAT('%', CONCAT(#{brower}, '%'))
+		</if>
+		<if test="os != null and '' != os">
+			and a.os like CONCAT('%', CONCAT(#{os}, '%'))
+		</if>
+		<if test="logstatus != null and '' != logstatus">
+			and a.logstatus like CONCAT('%', CONCAT(#{logstatus}, '%'))
+		</if>
+		<if test="role != null and '' != role">
+			and a.role like CONCAT('%', CONCAT(#{role}, '%'))
+		</if>
+		<if test="logtime != null and '' != logtime">
+			and a.logtime like CONCAT('%', CONCAT(#{logtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
