@@ -13,7 +13,7 @@
 [https://www.bilibili.com/video/BV1PS411w74W/](https://www.bilibili.com/video/BV1PS411w74W/)**
 
 **毕业设计所有选题地址：
-[https://github.com/ynwynw/allProject](https://github.com/ynwynw/allProject)**
+[https://github.com/zhengjianzhong0107/allProject](https://github.com/zhengjianzhong0107/allProject)**
 
 ## 基于Java+Springboot的手机维修管理系统(源代码+数据库)147
 
